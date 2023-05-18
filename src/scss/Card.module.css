@@ -1,0 +1,191 @@
+.card {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 840px;
+    width: 100%;
+    padding: 3.5rem 1.4rem 2rem;
+
+    transition: border-radius var(--transition-speed);
+    background-color: var(--white);
+    border-radius: 1.5rem 1.5rem 6rem 1.5rem;
+}
+
+
+
+.card-body {
+    position: relative;
+    display: flex;
+    gap: 0.9rem;
+    transition: gap var(--transition-speed);
+
+    padding-bottom: 3.9rem;
+    border-bottom: 2px solid var(--off-white);
+}
+
+.form-group {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.55rem;
+
+    font-size: min(3vw, 0.85rem);
+    font-weight: var(--bold);
+    color: var(--smokey-grey);
+    letter-spacing: 0.1rem;
+    cursor: pointer;
+}
+
+.form-group input[type="number"] {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: min(4.6vw, 2rem);
+    font-weight: var(--extra-bold);
+
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    padding: 0.6rem 0.9rem;
+
+    -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]:focus {
+    outline: 1px solid var(--purple);
+}
+
+.form-group p {
+    font-size: min(2.5vw, 0.88rem);
+    font-style: italic;
+    color: var(--light-red);
+    margin-top: 0.7rem;
+}
+
+.form-group p:empty {
+    display: none;
+}
+
+.form-group.error label {
+    color: var(--light-red);
+}
+
+.form-group.error input[type="number"] {
+    outline: 1px solid var(--light-red);
+}
+
+button#btnCalculateAge {
+    position: absolute;
+    z-index: 20;
+    bottom: 0;
+    right: 50%;
+    margin-right: -30px;
+    transform: translateY(50%);
+
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 0;
+    background-color: var(--purple);
+    cursor: pointer;
+    transition: width var(--transition-speed),
+                height var(--transition-speed),
+                right var(--transition-speed),
+                margin-right var(--transition-speed);
+}
+
+button#btnCalculateAge,
+button#btnCalculateAge svg {
+    max-width: 40%;
+}
+
+button#btnCalculateAge:hover,
+button#btnCalculateAge:focus-visible {
+    background-color: var(--off-black);
+    /* outline: 2px solid var(--purple);
+    outline-offset: 3px; */
+}
+
+button#btnCalculateAge:disabled {
+    background-color: var(--light-grey);
+    cursor: default;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.card-results {
+    margin-top: 2.2rem;
+}
+
+.result-calculation {
+    font-weight: var(--extra-bold);
+    font-style: italic;
+    font-size: min(12vw, 6.5rem);
+}
+
+.result-calculation:first-child {
+    margin-top: 0.8rem;
+}
+
+.result-calculation {
+    margin-top: -1.2rem;
+}
+
+.result-calculation span {
+    display: inline-block;
+    color: var(--purple);
+    margin-right: 0.5rem;
+}
+
+
+@media only screen and (min-width: 800px) {
+    .card {
+        padding: 3.5rem 3.5rem 2rem;
+        border-radius: 1.5rem 1.5rem 12.5rem 1.5rem;
+    }
+
+    .card-body {
+        gap: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .form-group input[type="number"] {
+        padding: 0.65rem 1.55rem;
+    }
+
+    .form-group label {
+        letter-spacing: 0.31rem;
+    }
+
+    .form-group p {
+        margin-top: 0.48rem;
+    }
+
+    button#btnCalculateAge {
+        width: 95px;
+        height: 95px;
+        right: 0;
+        margin-right: 0;
+    }
+
+    button#btnCalculateAge svg {
+        max-width: 50%;
+    }
+
+    .result-calculation:first-child {
+        margin-top: -0.6rem;
+    }
+
+    .result-calculation {
+        margin-top: -2.5rem;
+    }
+
+    .result-calculation span {
+        margin-right: 0.8rem;
+    }
+}

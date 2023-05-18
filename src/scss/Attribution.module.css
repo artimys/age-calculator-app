@@ -1,0 +1,13 @@
+.attribution {
+    position: fixed;
+    background: white;
+    width: 200px;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
+    border: 1px solid #aaa;
+    border-top-left-radius: 5px;
+    font-size: 0.7rem;
+    text-align: left;
+    color: #3e52a3;
+  }
