@@ -8,23 +8,18 @@ const Card = () => {
 
     const defaultResult = "- - ";
 
-    const { register, formState, control, handleSubmit } = useForm();
-    const { errors, isValid } = formState;
+    const { register, formState, control, handleSubmit, setError, trigger } = useForm();
+    const { errors, isValid, isSubmitting } = formState;
 
-    const onSubmit = formValues => {
-        console.log(formValues);
-    }
     // console.log(register('month'));
     // console.log(formState);
     // console.log(errors);
-    console.log("isValid:", isValid);
+    // console.log("isValid:", isValid);
+    // console.log("isSubmitting:", isSubmitting);
 
     const [dayResult, setDayResult] = useState(defaultResult);
     const [monthResult, setMonthResult] = useState(defaultResult);
     const [yearResult, setYearResult] = useState(defaultResult);
-
-
-
 
     const resetResult = () => {
         setDayResult(defaultResult);
@@ -32,22 +27,48 @@ const Card = () => {
         setYearResult(defaultResult);
     }
 
-    const calculateAgeHandler = (event) => {
-        event.preventDefault();
-        const button = event.target;
+    const invalidDate = (formValues) => {
+        const year = parseInt(formValues.year);
+        const month = parseInt(formValues.month)-1;
+        const day = parseInt(formValues.day);
+        const inputDate = new Date(year, month, day);
 
-        // Disable button to prevent countUp() from being called multiple times
-        button.disabled = true;
+        if (!(inputDate.getFullYear() == year &&
+            inputDate.getMonth() == month &&
+            inputDate.getDate() == day)) {
+
+            setError("day", {
+                type: "invalidDate",
+                message: "Must be a valid date"
+            });
+            setError("month", {
+                type: "invalidDate",
+                message: ""
+            });
+            setError("year", {
+                type: "invalidDate",
+                message: ""
+            });
+
+            return true;
+        }
+
+        // Is valid date
+        return false;
+    }
+
+    const calculateAgeHandler = (formValues) => {
+        console.log(formValues);
 
         // Clear previous results
         resetResult();
 
-        // Validate input and return if invalid
-        // if (anyFieldsEmpty() || anyInvalidValues() || invalidDate()) {
-        if (anyFieldsEmpty()) {
-            button.disabled = false;
+        if (invalidDate(formValues)) {
+            console.log('has invalid date');
             return;
         }
+
+        console.log('valid date, able to calculate');
     }
 
 
@@ -55,7 +76,7 @@ const Card = () => {
 
     return <article className={classes.card}>
         <section className={classes['card-body']}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(calculateAgeHandler)} noValidate>
             <div className={`${classes['form-group']} ${errors.day ? classes['error'] : ''}`}>
                 <label htmlFor="day">DAY</label>
                 <input id="day"
@@ -107,7 +128,7 @@ const Card = () => {
                                     outsideYearRange: (value) => {
                                         const currentYear = new Date().getFullYear();
                                         return (
-                                            !(value > currentYear) || "Must be a valid year"
+                                            !(value > currentYear) || "Must be in the past"
                                         )
                                     }
                                 }
@@ -118,7 +139,7 @@ const Card = () => {
             </div>
 
             {/* <button id={classes.btnCalculateAge} onClick={calculateAgeHandler} disabled={false}> */}
-            <button id={classes.btnCalculateAge} disabled={false}>
+            <button id={classes.btnCalculateAge} disabled={isSubmitting}>
                 <img src={downArrow} />
             </button>
 
