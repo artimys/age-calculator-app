@@ -27,10 +27,7 @@ const Card = () => {
         setYearResult(defaultResult);
     }
 
-    const invalidDate = (formValues) => {
-        const year = parseInt(formValues.year);
-        const month = parseInt(formValues.month)-1;
-        const day = parseInt(formValues.day);
+    const invalidDate = (year, month, day) => {
         const inputDate = new Date(year, month, day);
 
         if (!(inputDate.getFullYear() == year &&
@@ -53,22 +50,97 @@ const Card = () => {
             return true;
         }
 
-        // Is valid date
+        // Is a valid date
         return false;
     }
 
-    const calculateAgeHandler = (formValues) => {
+    const calculateAge = (start, end) => {
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth();
+        const startDateOfMonth = start.getDate();
+
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth();
+        const endDateOfMonth = end.getDate();
+
+        let years = endYear - startYear;
+        let months = endMonth - startMonth;
+        let days = endDateOfMonth - startDateOfMonth;
+
+        if (months < 0 || (months === 0 && days < 0)) {
+            years--;
+            months += 12;
+        }
+
+        if (days < 0) {
+            const lastMonthStartDate = new Date(endYear, endMonth - 1, 1);
+            const lastMonthEndDate = new Date(endYear, endMonth, 0);
+            const lastMonthDays = lastMonthEndDate.getDate();
+            days = lastMonthDays - startDateOfMonth + endDateOfMonth;
+            months--;
+        }
+
+        return {
+            years: years,
+            months: months,
+            days: days
+        }
+    }
+
+    const countUp = (element, target, duration) => {
+        return new Promise((resolve) => {
+            let count = 0;
+            const interval = Math.ceil(duration / target);
+
+            const countInterval = setInterval(() => {
+                count++;
+                element.innerText = count;
+
+                if (count >= target) {
+                    clearInterval(countInterval);
+                    resolve();
+                }
+            }, interval);
+        });
+    }
+
+    const calculateAgeHandler = async (formValues) => {
         console.log(formValues);
 
         // Clear previous results
         resetResult();
 
-        if (invalidDate(formValues)) {
+        // Parse values to integer
+        const year = parseInt(formValues.year);
+        const month = parseInt(formValues.month)-1;
+        const day = parseInt(formValues.day);
+
+        if (invalidDate(year, month, day)) {
             console.log('has invalid date');
             return;
         }
 
-        console.log('valid date, able to calculate');
+        // Calculate age
+        const inputDate = new Date(year, month, day);
+        const currentDate = new Date();
+        const results = calculateAge(inputDate, currentDate);
+        console.log('results', results);
+
+
+        // Display results
+        try {
+            // await countUp(yearResult, results.years, 1000);
+            // await countUp(monthResult, results.months, 200);
+            // await countUp(dayResult, results.days, 400);
+            setYearResult(results.years);
+            setMonthResult(results.months);
+            setDayResult(results.days);
+
+            // this.disabled = false;
+        } catch (error) {
+            console.error("CountUp Error:", error);
+            // this.disabled = false;
+        }
     }
 
 
@@ -76,7 +148,6 @@ const Card = () => {
 
     return <article className={classes.card}>
         <section className={classes['card-body']}>
-        <form onSubmit={handleSubmit(calculateAgeHandler)} noValidate>
             <div className={`${classes['form-group']} ${errors.day ? classes['error'] : ''}`}>
                 <label htmlFor="day">DAY</label>
                 <input id="day"
@@ -139,17 +210,18 @@ const Card = () => {
             </div>
 
             {/* <button id={classes.btnCalculateAge} onClick={calculateAgeHandler} disabled={false}> */}
-            <button id={classes.btnCalculateAge} disabled={isSubmitting}>
+            <button id={classes.btnCalculateAge}
+                    disabled={isSubmitting}
+                    onClick={handleSubmit(calculateAgeHandler)}>
                 <img src={downArrow} />
             </button>
 
-        </form>
         </section>
 
         <section className={classes['card-results']}>
-            <h1 className={classes['result-calculation']}><span id="yearResult">{dayResult}</span>years</h1>
+            <h1 className={classes['result-calculation']}><span id="yearResult">{yearResult}</span>years</h1>
             <h2 className={classes['result-calculation']}><span id="monthResult">{monthResult}</span>months</h2>
-            <h3 className={classes['result-calculation']}><span id="dayResult">{yearResult}</span>days</h3>
+            <h3 className={classes['result-calculation']}><span id="dayResult">{dayResult}</span>days</h3>
         </section>
         <DevTool control={control} />
     </article>
