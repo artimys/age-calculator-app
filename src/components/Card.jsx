@@ -3,19 +3,14 @@ import classes from '../scss/Card.module.css'
 import downArrow from '../assets/downArrow.svg'
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
+import NumberInput from './NumberInput';
 
 const Card = () => {
 
     const defaultResult = "- - ";
 
-    const { register, formState, control, handleSubmit, setError, trigger } = useForm();
+    const { register, formState, control, handleSubmit, setError } = useForm();
     const { errors, isValid, isSubmitting } = formState;
-
-    // console.log(register('month'));
-    // console.log(formState);
-    // console.log(errors);
-    // console.log("isValid:", isValid);
-    // console.log("isSubmitting:", isSubmitting);
 
     const [dayResult, setDayResult] = useState(defaultResult);
     const [monthResult, setMonthResult] = useState(defaultResult);
@@ -105,8 +100,6 @@ const Card = () => {
     }
 
     const calculateAgeHandler = async (formValues) => {
-        console.log(formValues);
-
         // Clear previous results
         resetResult();
 
@@ -116,7 +109,6 @@ const Card = () => {
         const day = parseInt(formValues.day);
 
         if (invalidDate(year, month, day)) {
-            console.log('has invalid date');
             return;
         }
 
@@ -124,8 +116,7 @@ const Card = () => {
         const inputDate = new Date(year, month, day);
         const currentDate = new Date();
         const results = calculateAge(inputDate, currentDate);
-        console.log('results', results);
-
+        // console.log('results', results);
 
         // Display results
         try {
@@ -135,81 +126,67 @@ const Card = () => {
             setYearResult(results.years);
             setMonthResult(results.months);
             setDayResult(results.days);
-
-            // this.disabled = false;
         } catch (error) {
             console.error("CountUp Error:", error);
-            // this.disabled = false;
         }
     }
 
 
+    const dayValidationRules = {
+        required: "This field is required",
+        validate: {
+            outsideDayRange: (value) => {
+                return (
+                    !(value < 1 || value > 31) || "Must be a valid day"
+                )
+            }
+        }
+    }
 
+    const monthValidationRules = {
+        required: "This field is required",
+        validate: {
+            outsideMonthRange: (value) => {
+                return (
+                    !(value < 1 || value > 12) || "Must be a valid month"
+                )
+            }
+        }
+    }
+
+    const yearValidationRules = {
+        required: "This field is required",
+        validate: {
+            outsideYearRange: (value) => {
+                const currentYear = new Date().getFullYear();
+                return (
+                    !(value > currentYear) || "Must be in the past"
+                )
+            }
+        }
+    }
 
     return <article className={classes.card}>
         <section className={classes['card-body']}>
-            <div className={`${classes['form-group']} ${errors.day ? classes['error'] : ''}`}>
-                <label htmlFor="day">DAY</label>
-                <input id="day"
-                        type="number"
-                        className="fields"
-                        {...register("day", {
-                                required: "This field is required",
-                                validate: {
-                                    outsideDayRange: (value) => {
-                                        return (
-                                            !(value < 1 || value > 31) || "Must be a valid day"
-                                        )
-                                    }
-                                }
-                            }
-                        )}
-                        placeholder="DD" />
-                <p>{errors.day?.message}</p>
-            </div>
 
-            <div className={`${classes['form-group']} ${errors.month ? classes['error'] : ''}`}>
-                <label htmlFor="month">MONTH</label>
-                <input id="month"
-                        className={classes.fields}
-                        type="number"
-                        {...register("month", {
-                                required: "This field is required",
-                                validate: {
-                                    outsideMonthRange: (value) => {
-                                        return (
-                                            !(value < 1 || value > 12) || "Must be a valid month"
-                                        )
-                                    }
-                                }
-                            }
-                        )}
-                        placeholder="MM" />
-                <p>{errors.month?.message}</p>
-            </div>
+            <NumberInput placeholder="DD"
+                        label="day"
+                        errors={errors}
+                        register={register}
+                        validation={dayValidationRules} />
 
-            <div className={`${classes['form-group']} ${errors.year ? classes['error'] : ''}`}>
-                <label htmlFor="year">YEAR</label>
-                <input id="year"
-                        className={classes.fields}
-                        type="number"
-                        {...register("year", {
-                                required: "This field is required",
-                                validate: {
-                                    outsideYearRange: (value) => {
-                                        const currentYear = new Date().getFullYear();
-                                        return (
-                                            !(value > currentYear) || "Must be in the past"
-                                        )
-                                    }
-                                }
-                            }
-                        )}
-                        placeholder="YYYY" />
-                <p>{errors.year?.message}</p>
-            </div>
+            <NumberInput placeholder="MM"
+                        label="month"
+                        errors={errors}
+                        register={register}
+                        validation={monthValidationRules} />
 
-            {/* <button id={classes.btnCalculateAge} onClick={calculateAgeHandler} disabled={false}> */}
+            <NumberInput placeholder="YYYY"
+                        label="year"
+                        errors={errors}
+                        register={register}
+                        validation={yearValidationRules} />
+
             <button id={classes.btnCalculateAge}
                     disabled={isSubmitting}
                     onClick={handleSubmit(calculateAgeHandler)}>
@@ -223,6 +200,7 @@ const Card = () => {
             <h2 className={classes['result-calculation']}><span id="monthResult">{monthResult}</span>months</h2>
             <h3 className={classes['result-calculation']}><span id="dayResult">{dayResult}</span>days</h3>
         </section>
+
         <DevTool control={control} />
     </article>
 }

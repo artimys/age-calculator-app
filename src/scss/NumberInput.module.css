@@ -1,0 +1,74 @@
+.form-group {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.55rem;
+
+    font-size: min(3vw, 0.85rem);
+    font-weight: var(--bold);
+    color: var(--smokey-grey);
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.form-group input[type="number"] {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: min(4.6vw, 2rem);
+    font-weight: var(--extra-bold);
+
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    padding: 0.6rem 0.9rem;
+
+    -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]:focus {
+    outline: 1px solid var(--purple);
+}
+
+.form-group p {
+    font-size: min(2.5vw, 0.88rem);
+    font-style: italic;
+    color: var(--light-red);
+    margin-top: 0.7rem;
+}
+
+.form-group p:empty {
+    display: none;
+}
+
+.form-group.error label {
+    color: var(--light-red);
+}
+
+.form-group.error input[type="number"] {
+    outline: 1px solid var(--light-red);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+@media only screen and (min-width: 800px) {
+    .form-group input[type="number"] {
+        padding: 0.65rem 1.55rem;
+    }
+
+    .form-group label {
+        letter-spacing: 0.31rem;
+    }
+
+    .form-group p {
+        margin-top: 0.48rem;
+    }
+}
