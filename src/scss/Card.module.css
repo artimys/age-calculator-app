@@ -46,11 +46,14 @@ button#btnCalculateAge img {
     max-width: 40%;
 }
 
-button#btnCalculateAge:hover,
-button#btnCalculateAge:focus-visible {
+button#btnCalculateAge:hover {
     background-color: var(--off-black);
-    /* outline: 2px solid var(--purple);
-    outline-offset: 3px; */
+}
+
+button#btnCalculateAge:focus,
+button#btnCalculateAge:focus-visible {
+    outline: 2px solid var(--purple);
+    outline-offset: 3px;
 }
 
 button#btnCalculateAge:disabled {
