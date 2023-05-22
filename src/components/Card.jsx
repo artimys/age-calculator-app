@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import classes from '../scss/Card.module.css'
 import downArrow from '../assets/downArrow.svg'
+import NumberInput from './NumberInput'
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
-import NumberInput from './NumberInput';
 
 const Card = () => {
-
     const defaultResult = "- - ";
 
     const { register, formState, control, handleSubmit, setError } = useForm();
-    const { errors, isValid, isSubmitting } = formState;
+    const { errors, isSubmitting } = formState;
 
-    const [dayResult, setDayResult] = useState(defaultResult);
-    const [monthResult, setMonthResult] = useState(defaultResult);
-    const [yearResult, setYearResult] = useState(defaultResult);
+    const dayResultRef = useRef();
+    const monthResultRef = useRef();
+    const yearResultRef = useRef();
+
 
     const resetResult = () => {
-        setDayResult(defaultResult);
-        setMonthResult(defaultResult);
-        setYearResult(defaultResult);
+        yearResultRef.current.innerText = defaultResult;
+        monthResultRef.current.innerText = defaultResult;
+        dayResultRef.current.innerText = defaultResult;
     }
 
     const invalidDate = (year, month, day) => {
@@ -89,7 +89,7 @@ const Card = () => {
 
             const countInterval = setInterval(() => {
                 count++;
-                element.innerText = count;
+                element.current.innerText = count;
 
                 if (count >= target) {
                     clearInterval(countInterval);
@@ -108,6 +108,7 @@ const Card = () => {
         const month = parseInt(formValues.month)-1;
         const day = parseInt(formValues.day);
 
+        // Cancel form submission if inputs equal an invalid date
         if (invalidDate(year, month, day)) {
             return;
         }
@@ -116,16 +117,12 @@ const Card = () => {
         const inputDate = new Date(year, month, day);
         const currentDate = new Date();
         const results = calculateAge(inputDate, currentDate);
-        // console.log('results', results);
 
         // Display results
         try {
-            // await countUp(yearResult, results.years, 1000);
-            // await countUp(monthResult, results.months, 200);
-            // await countUp(dayResult, results.days, 400);
-            setYearResult(results.years);
-            setMonthResult(results.months);
-            setDayResult(results.days);
+            await countUp(yearResultRef, results.years, 1000);
+            await countUp(monthResultRef, results.months, 200);
+            await countUp(dayResultRef, results.days, 400);
         } catch (error) {
             console.error("CountUp Error:", error);
         }
@@ -170,19 +167,19 @@ const Card = () => {
         <section className={classes['card-body']}>
 
             <NumberInput placeholder="DD"
-                        label="day"
+                        name="day"
                         errors={errors}
                         register={register}
                         validation={dayValidationRules} />
 
             <NumberInput placeholder="MM"
-                        label="month"
+                        name="month"
                         errors={errors}
                         register={register}
                         validation={monthValidationRules} />
 
             <NumberInput placeholder="YYYY"
-                        label="year"
+                        name="year"
                         errors={errors}
                         register={register}
                         validation={yearValidationRules} />
@@ -196,9 +193,9 @@ const Card = () => {
         </section>
 
         <section className={classes['card-results']}>
-            <h1 className={classes['result-calculation']}><span id="yearResult">{yearResult}</span>years</h1>
-            <h2 className={classes['result-calculation']}><span id="monthResult">{monthResult}</span>months</h2>
-            <h3 className={classes['result-calculation']}><span id="dayResult">{dayResult}</span>days</h3>
+            <h1 className={classes['result']}><span ref={yearResultRef}>- - </span>years</h1>
+            <h2 className={classes['result']}><span ref={monthResultRef}>- - </span>months</h2>
+            <h3 className={classes['result']}><span ref={dayResultRef}>- - </span>days</h3>
         </section>
 
         <DevTool control={control} />

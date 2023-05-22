@@ -5,9 +5,9 @@
     bottom: 0;
     right: 0;
     padding: 1em;
-    border: 1px solid #aaa;
-    border-top-left-radius: 5px;
+    /* border: 1px solid #aaa; */
+    border-top-left-radius: 1rem;
     font-size: 0.7rem;
-    text-align: left;
+    text-align: right;
     color: #3e52a3;
   }

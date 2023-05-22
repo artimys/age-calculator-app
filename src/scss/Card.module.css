@@ -42,7 +42,7 @@ button#btnCalculateAge {
 }
 
 button#btnCalculateAge,
-button#btnCalculateAge svg {
+button#btnCalculateAge img {
     max-width: 40%;
 }
 
@@ -55,28 +55,28 @@ button#btnCalculateAge:focus-visible {
 
 button#btnCalculateAge:disabled {
     background-color: var(--light-grey);
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .card-results {
     margin-top: 2.2rem;
 }
 
-.result-calculation {
+.result {
     font-weight: var(--extra-bold);
     font-style: italic;
     font-size: min(12vw, 6.5rem);
 }
 
-.result-calculation:first-child {
+.result:first-child {
     margin-top: 0.8rem;
 }
 
-.result-calculation {
+.result {
     margin-top: -1.2rem;
 }
 
-.result-calculation span {
+.result span {
     display: inline-block;
     color: var(--purple);
     margin-right: 0.5rem;
@@ -101,19 +101,19 @@ button#btnCalculateAge:disabled {
         margin-right: 0;
     }
 
-    button#btnCalculateAge svg {
+    button#btnCalculateAge img {
         max-width: 50%;
     }
 
-    .result-calculation:first-child {
+    .result:first-child {
         margin-top: -0.6rem;
     }
 
-    .result-calculation {
+    .result {
         margin-top: -2.5rem;
     }
 
-    .result-calculation span {
+    .result span {
         margin-right: 0.8rem;
     }
 }

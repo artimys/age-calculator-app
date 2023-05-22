@@ -3,16 +3,17 @@ import classes from '../scss/NumberInput.module.css'
 const NumberInput = (props) => {
     return <>
 
-        <div className={`${classes['form-group']} ${props.errors.day ? classes['error'] : ''}`}>
-            <label htmlFor={props.label}>{props.label}</label>
+        <div className={`${classes['form-group']} ${props.errors[props.name] ? classes['error'] : ''}`}>
+            <label htmlFor={props.name}>{props.name}</label>
 
             <input type="number"
+                    id={props.name}
                     className={classes.fields}
-                    {...props.register(props.label, props.validation)}
                     placeholder={props.placeholder}
+                    {...props.register(props.name, props.validation)}
             />
 
-            <p>{props.errors[props.label]?.message}</p>
+            <p>{props.errors[props.name]?.message}</p>
         </div>
 
     </>
