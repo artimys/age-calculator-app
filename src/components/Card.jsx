@@ -198,7 +198,7 @@ const Card = () => {
             <h3 className={classes['result']}><span ref={dayResultRef}>- - </span>days</h3>
         </section>
 
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
     </article>
 }
 

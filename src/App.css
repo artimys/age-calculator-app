@@ -46,3 +46,19 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+
+a,
+a:visited {
+    color: var(--purple);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:focus,
+a:focus-visible {
+    outline: 2px solid var(--purple);
+    border-radius: 5px;
+}
