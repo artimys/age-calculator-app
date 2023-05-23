@@ -1,12 +1,12 @@
 .attribution {
     position: fixed;
-    width: 230px;
+    width: 220px;
     bottom: 0;
     right: 0;
-    padding: 2em;
+    padding: 1.5em 1.2em 1em;
     background: var(--off-white);
     background: var(--white);
-    border-top-left-radius: 4rem;
+    border-top-left-radius: 3rem;
     font-size: 0.7rem;
     text-align: right;
   }

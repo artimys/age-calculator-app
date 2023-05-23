@@ -21,7 +21,7 @@
     border-bottom: 2px solid var(--off-white);
 }
 
-button#btnCalculateAge {
+.btn-primary {
     position: absolute;
     z-index: 20;
     bottom: 0;
@@ -41,22 +41,22 @@ button#btnCalculateAge {
                 margin-right var(--transition-speed);
 }
 
-button#btnCalculateAge,
-button#btnCalculateAge img {
+.btn-primary,
+.btn-primary img {
     max-width: 40%;
 }
 
-button#btnCalculateAge:hover {
+.btn-primary:hover {
     background-color: var(--off-black);
 }
 
-button#btnCalculateAge:focus,
-button#btnCalculateAge:focus-visible {
+.btn-primary:focus,
+.btn-primary:focus-visible {
     outline: 2px solid var(--off-black);
     outline-offset: 3px;
 }
 
-button#btnCalculateAge:disabled {
+.btn-primary:disabled {
     background-color: var(--light-grey);
     cursor: not-allowed;
 }
@@ -97,14 +97,14 @@ button#btnCalculateAge:disabled {
         padding-bottom: 3rem;
     }
 
-    button#btnCalculateAge {
+    .btn-primary {
         width: 95px;
         height: 95px;
         right: 0;
         margin-right: 0;
     }
 
-    button#btnCalculateAge img {
+    .btn-primary img {
         max-width: 50%;
     }
 

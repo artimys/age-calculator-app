@@ -10,7 +10,12 @@ const NumberInput = (props) => {
                     id={props.name}
                     className={classes.fields}
                     placeholder={props.placeholder}
-                    {...props.register(props.name, props.validation)}
+                    onInput={props.moveToNextFocus}
+                    {...props.register(props.name, {
+                                        ...props.validation,
+                                        valueAsNumber: true
+                                    })
+                    }
             />
 
             <p>{props.errors[props.name]?.message}</p>

@@ -104,9 +104,9 @@ const Card = () => {
         resetResult();
 
         // Parse values to integer
-        const year = parseInt(formValues.year);
-        const month = parseInt(formValues.month)-1;
-        const day = parseInt(formValues.day);
+        const year = formValues.year;
+        const month = formValues.month-1;
+        const day = formValues.day;
 
         // Cancel form submission if inputs equal an invalid date
         if (invalidDate(year, month, day)) {
@@ -126,8 +126,20 @@ const Card = () => {
         } catch (error) {
             console.error("CountUp Error:", error);
         }
+
+        // Return focus to first input field
+        const dayInput = document.getElementById("day");
+        dayInput.focus();
+        // dayInput.select();
     }
 
+    const moveFocus = (e, nextElement, charLimit) => {
+        const value = e.target.value;
+
+        if (value.length === charLimit) {
+            document.getElementById(nextElement).focus();
+        }
+    }
 
     const dayValidationRules = {
         required: "This field is required",
@@ -170,21 +182,25 @@ const Card = () => {
                         name="day"
                         errors={errors}
                         register={register}
+                        moveToNextFocus={e => { moveFocus(e, "month", 2) } }
                         validation={dayValidationRules} />
 
             <NumberInput placeholder="MM"
                         name="month"
                         errors={errors}
                         register={register}
+                        moveToNextFocus={e => { moveFocus(e, "year", 2) } }
                         validation={monthValidationRules} />
 
             <NumberInput placeholder="YYYY"
                         name="year"
                         errors={errors}
                         register={register}
+                        moveToNextFocus={e => { moveFocus(e, "btnCalculateAge", 4) } }
                         validation={yearValidationRules} />
 
-            <button id={classes.btnCalculateAge}
+            <button id="btnCalculateAge"
+                    className={classes['btn-primary']}
                     disabled={isSubmitting}
                     onClick={handleSubmit(calculateAgeHandler)}>
                 <img src={downArrow} />
