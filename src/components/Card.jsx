@@ -176,7 +176,7 @@ const Card = () => {
     }
 
     return <article className={classes.card}>
-        <section className={classes['card-body']}>
+        <div className={classes['card-body']}>
 
             <NumberInput placeholder="DD"
                         name="day"
@@ -200,19 +200,20 @@ const Card = () => {
                         validation={yearValidationRules} />
 
             <button id="btnCalculateAge"
+                    aria-label="CalculateAge"
                     className={classes['btn-primary']}
                     disabled={isSubmitting}
                     onClick={handleSubmit(calculateAgeHandler)}>
-                <img src={downArrow} />
+                <img alt="" src={downArrow} />
             </button>
 
-        </section>
+        </div>
 
-        <section className={classes['card-results']}>
+        <div className={classes['card-results']}>
             <h1 className={classes['result']}><span ref={yearResultRef}>- - </span>years</h1>
             <h2 className={classes['result']}><span ref={monthResultRef}>- - </span>months</h2>
             <h3 className={classes['result']}><span ref={dayResultRef}>- - </span>days</h3>
-        </section>
+        </div>
 
         {/* <DevTool control={control} /> */}
     </article>
