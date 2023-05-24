@@ -129,7 +129,7 @@ const Card = () => {
 
         // Return focus to first input field
         const dayInput = document.getElementById("day");
-        dayInput.focus();
+        // dayInput.focus();
         // dayInput.select();
     }
 
