@@ -1,9 +1,13 @@
 import classes from '../scss/NumberInput.module.css'
+import { useFormContext } from 'react-hook-form'
 
 const NumberInput = (props) => {
-    return <>
 
-        <div className={`${classes['form-group']} ${props.errors[props.name] ? classes['error'] : ''}`}>
+    // retrieve all hook methods
+    const { register, formState: { errors } } = useFormContext();
+
+    return <>
+        <div className={`${classes['form-group']} ${errors[props.name] ? classes['error'] : ''}`}>
             <label htmlFor={props.name}>{props.name}</label>
 
             <input type="number"
@@ -11,14 +15,15 @@ const NumberInput = (props) => {
                     className={classes.fields}
                     placeholder={props.placeholder}
                     onInput={props.moveToNextFocus}
-                    {...props.register(props.name, {
+
+                    {...register(props.name, {
                                         ...props.validation,
                                         valueAsNumber: true
                                     })
                     }
             />
 
-            <p>{props.errors[props.name]?.message}</p>
+            <p>{errors[props.name]?.message}</p>
         </div>
 
     </>

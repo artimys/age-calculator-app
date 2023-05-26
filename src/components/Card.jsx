@@ -2,14 +2,15 @@ import React, { useRef } from 'react';
 import classes from '../scss/Card.module.css'
 import downArrow from '../assets/downArrow.svg'
 import NumberInput from './NumberInput'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 
 const Card = () => {
     const defaultResult = "- - ";
 
-    const { register, formState, control, handleSubmit, setError } = useForm();
-    const { errors, isSubmitting } = formState;
+    // const { register, formState, control, handleSubmit, setError } = useForm();
+    const methods = useForm();
+    const { formState: { isSubmitting }, control, setError } = methods;
 
     const dayResultRef = useRef();
     const monthResultRef = useRef();
@@ -177,25 +178,20 @@ const Card = () => {
 
     return <article className={classes.card}>
         <div className={classes['card-body']}>
+        <FormProvider {...methods}> {/* pass all methods into the context */}
 
             <NumberInput placeholder="DD"
                         name="day"
-                        errors={errors}
-                        register={register}
-                        moveToNextFocus={e => { moveFocus(e, "month", 2) } }
+                        moveToNextFocus={e => { moveFocus(e, 'month', 2) } }
                         validation={dayValidationRules} />
 
             <NumberInput placeholder="MM"
                         name="month"
-                        errors={errors}
-                        register={register}
-                        moveToNextFocus={e => { moveFocus(e, "year", 2) } }
+                        moveToNextFocus={e => { moveFocus(e, 'year', 2) } }
                         validation={monthValidationRules} />
 
             <NumberInput placeholder="YYYY"
                         name="year"
-                        errors={errors}
-                        register={register}
                         moveToNextFocus={e => { moveFocus(e, "btnCalculateAge", 4) } }
                         validation={yearValidationRules} />
 
@@ -203,10 +199,11 @@ const Card = () => {
                     aria-label="CalculateAge"
                     className={classes['btn-primary']}
                     disabled={isSubmitting}
-                    onClick={handleSubmit(calculateAgeHandler)}>
+                    onClick={methods.handleSubmit(calculateAgeHandler)}>
                 <img alt="" src={downArrow} />
             </button>
 
+        </FormProvider>
         </div>
 
         <div className={classes['card-results']}>
