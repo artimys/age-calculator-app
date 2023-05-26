@@ -14,7 +14,7 @@ const NumberInput = (props) => {
                     id={props.name}
                     className={classes.fields}
                     placeholder={props.placeholder}
-                    onInput={props.moveToNextFocus}
+                    onInput={props.moveFocusHandler}
                     aria-invalid={errors[props.name] ? "true" : "false"}
 
                     {...register(props.name, {
@@ -22,6 +22,13 @@ const NumberInput = (props) => {
                                         valueAsNumber: true
                                     })
                     }
+
+                    // event has to come after register
+                    onBlur={props.twoDigitBlurHandler}
+                    // onBlur={(e) => {
+                    //     // props.blurHandler
+                    //     console.log('touch');
+                    // }}
             />
 
             <p role="alert">{errors[props.name]?.message}</p>

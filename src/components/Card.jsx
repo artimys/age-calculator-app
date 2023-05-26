@@ -135,7 +135,7 @@ const Card = () => {
         // dayInput.select();
     }
 
-    const moveFocus = (e, nextElement, charLimit) => {
+    const moveFocusHandler = (e, nextElement, charLimit) => {
         const value = e.target.value;
         const currentInputName = e.target.id;
 
@@ -156,6 +156,17 @@ const Card = () => {
             setFocus(nextElement);
         }
     }
+
+    const twoDigitBlurHandler = (e) => {
+        const value = e.target.value;
+        const currentInputName = e.target.id;
+
+        if (value > 0 && value < 10) {
+            const twoDigitConversion = value.toString().padStart(2, "0");
+            setValue(currentInputName, twoDigitConversion);
+        }
+    }
+
 
     const dayValidationRules = {
         required: "This field is required",
@@ -197,17 +208,19 @@ const Card = () => {
 
             <NumberInput placeholder="DD"
                         name="day"
-                        moveToNextFocus={e => { moveFocus(e, 'month', 2) } }
+                        moveFocusHandler={e => { moveFocusHandler(e, 'month', 2) } }
+                        twoDigitBlurHandler={twoDigitBlurHandler}
                         validation={dayValidationRules} />
 
             <NumberInput placeholder="MM"
                         name="month"
-                        moveToNextFocus={e => { moveFocus(e, 'year', 2) } }
+                        moveFocusHandler={e => { moveFocusHandler(e, 'year', 2) } }
+                        twoDigitBlurHandler={twoDigitBlurHandler}
                         validation={monthValidationRules} />
 
             <NumberInput placeholder="YYYY"
                         name="year"
-                        moveToNextFocus={e => { moveFocus(e, "btnCalculateAge", 4) } }
+                        moveFocusHandler={e => { moveFocusHandler(e, "btnCalculateAge", 4) } }
                         validation={yearValidationRules} />
 
             <button className={classes['btn-primary']}
