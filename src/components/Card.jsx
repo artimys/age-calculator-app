@@ -9,14 +9,7 @@ const Card = () => {
     const defaultResult = "- - ";
 
     // const { register, formState, control, handleSubmit, setError } = useForm();
-    const methods = useForm({
-        defaultValues: {
-            day: '20',
-            month: '06',
-            year: '1984'
-        }
-    }
-    );
+    const methods = useForm();
     const { formState: { isSubmitting, errors }, control, setError, setFocus, setValue } = methods;
 
     const dayResultRef = useRef();
