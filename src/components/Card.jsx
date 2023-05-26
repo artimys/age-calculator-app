@@ -9,8 +9,15 @@ const Card = () => {
     const defaultResult = "- - ";
 
     // const { register, formState, control, handleSubmit, setError } = useForm();
-    const methods = useForm();
-    const { formState: { isSubmitting }, control, setError, setFocus, setValue } = methods;
+    const methods = useForm({
+        defaultValues: {
+            day: '20',
+            month: '06',
+            year: '1984'
+        }
+    }
+    );
+    const { formState: { isSubmitting, errors }, control, setError, setFocus, setValue } = methods;
 
     const dayResultRef = useRef();
     const monthResultRef = useRef();
@@ -153,7 +160,11 @@ const Card = () => {
                 return;
             }
 
-            setFocus(nextElement);
+            // Move focus when no error exists
+            if (!errors[currentInputName]) {
+                setFocus(nextElement);
+            } // else do not move focus if error already exists on input
+
         }
     }
 
