@@ -10,11 +10,12 @@ const Card = () => {
 
     // const { register, formState, control, handleSubmit, setError } = useForm();
     const methods = useForm();
-    const { formState: { isSubmitting }, control, setError } = methods;
+    const { formState: { isSubmitting }, control, setError, setFocus, setValue } = methods;
 
     const dayResultRef = useRef();
     const monthResultRef = useRef();
     const yearResultRef = useRef();
+    const submitRef= useRef();
 
 
     const resetResult = () => {
@@ -136,9 +137,23 @@ const Card = () => {
 
     const moveFocus = (e, nextElement, charLimit) => {
         const value = e.target.value;
+        const currentInputName = e.target.id;
 
-        if (value.length === charLimit) {
-            document.getElementById(nextElement).focus();
+        if (value.length >= charLimit) {
+
+            // Slice excess chars after limit reached
+            if (value.length > charLimit) {
+                const maxValueOnly = value.slice(0, charLimit);
+                setValue(currentInputName, maxValueOnly);
+            }
+
+            // Focus on ref button that is not managed by React-Hook-Form
+            if (charLimit === 4) {
+                submitRef.current.focus();
+                return;
+            }
+
+            setFocus(nextElement);
         }
     }
 
@@ -195,9 +210,9 @@ const Card = () => {
                         moveToNextFocus={e => { moveFocus(e, "btnCalculateAge", 4) } }
                         validation={yearValidationRules} />
 
-            <button id="btnCalculateAge"
-                    aria-label="CalculateAge"
-                    className={classes['btn-primary']}
+            <button className={classes['btn-primary']}
+                    aria-label="Submit to calculate age"
+                    ref={submitRef}
                     disabled={isSubmitting}
                     onClick={methods.handleSubmit(calculateAgeHandler)}>
                 <img alt="" src={downArrow} />

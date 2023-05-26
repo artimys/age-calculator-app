@@ -15,6 +15,7 @@ const NumberInput = (props) => {
                     className={classes.fields}
                     placeholder={props.placeholder}
                     onInput={props.moveToNextFocus}
+                    aria-invalid={errors[props.name] ? "true" : "false"}
 
                     {...register(props.name, {
                                         ...props.validation,
@@ -23,7 +24,7 @@ const NumberInput = (props) => {
                     }
             />
 
-            <p>{errors[props.name]?.message}</p>
+            <p role="alert">{errors[props.name]?.message}</p>
         </div>
 
     </>
